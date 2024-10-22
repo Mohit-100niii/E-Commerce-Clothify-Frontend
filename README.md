@@ -7,7 +7,7 @@ for seamless payment handling.
 3. Utilized React and Redux for building interactive UI components and managing application state.
 4. Led the forntend and Backend Development of the project, ensuring efficient data handling and system security
 
-#### View Demo: https://gorgeous-shopping-clothify-f1a8ec.netlify.app/
+#### View Demo: https://e-commerce-clothify-frontend.vercel.app/
 
 ### ScreenShots
 
