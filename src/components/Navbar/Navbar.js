@@ -14,8 +14,7 @@ import { fetchCategoriesAction } from "../../redux/slices/categories/categoriesS
 import { getCartItemsFromLocalStorageAction } from "../../redux/slices/cart/cartSlices";
 import { logoutAction } from "../../redux/slices/users/userSlice";
 import { fetchCouponsAction } from "../../redux/slices/coupons/couponsSlice";
-
-
+import { ThreeDot } from "react-loading-indicators";
 
 export default function Navbar() {
   //dispatch
@@ -25,7 +24,6 @@ export default function Navbar() {
   }, [dispatch]);
   //get data from store
   const { categories } = useSelector((state) => state?.categories);
-  
 
   const categoriesToDisplay = categories?.categories?.slice(0, 3);
 
@@ -36,7 +34,7 @@ export default function Navbar() {
   }, [dispatch]);
 
   const { cartItems } = useSelector((state) => state?.carts);
- 
+
   //get login user from localstorage
 
   const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -45,11 +43,10 @@ export default function Navbar() {
   //logout handler
   const logoutHandler = () => {
     dispatch(logoutAction());
-    
+
     //reload
     // window.location.reload();
-    window.location.href="/";
-
+    window.location.href = "/";
   };
   //coupons
   useEffect(() => {
@@ -191,14 +188,22 @@ export default function Navbar() {
           {/* Coupon navbar */}
           {!currentCoupon?.isExpired && (
             <div className="bg-yellow-500">
-              <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+              <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <p
                   style={{ textAlign: "center", width: "100%" }}
-                  className="flex-1 text-center text-sm font-medium text-white lg:flex-none"
+                  className="flex-1 text-center text-md font-medium text-white lg:flex-none"
                 >
-                  {currentCoupon
-                    ? `${currentCoupon?.code}- ${currentCoupon?.discount}% , ${currentCoupon?.daysLeft}`
-                    : "No Flash sale at moment"}
+                  {currentCoupon ? (
+                    `${currentCoupon?.code}- ${currentCoupon?.discount}% , ${currentCoupon?.daysLeft}`
+                  ) : (
+                    <ThreeDot
+                      variant="bounce"
+                      color="#eaf4ea"
+                      size="medium"
+                      text="Loading Please Wait.."
+                      textColor="#f3f3f3"
+                    />
+                  )}
                 </p>
 
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6"></div>
@@ -248,7 +253,9 @@ export default function Navbar() {
                         src={logo}
                         alt="i-novotek logo"
                       /> */}
-                      <h1 className="text-2xl font-bold text-gray-800"><b>CLOTHIFY</b></h1>
+                      <h1 className="text-2xl font-bold text-gray-800">
+                        <b>CLOTHIFY</b>
+                      </h1>
                     </Link>
                   </div>
 
@@ -316,7 +323,9 @@ export default function Navbar() {
                       src={logo}
                       alt="i-novotek logo"
                     /> */}
-                    <h3 className="text-left text-xl font-bold text-gray-800"><b>CLOTHIFY</b></h3>
+                    <h3 className="text-left text-xl font-bold text-gray-800">
+                      <b>CLOTHIFY</b>
+                    </h3>
                   </Link>
 
                   {/* login profile icon mobile */}
@@ -378,13 +387,11 @@ export default function Navbar() {
                             aria-hidden="true"
                           />
                           <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                            
                             {/* {cartItems?.length > 0 ? cartItems?.length : 0} */}
 
-                           {isLoggedIn && cartItems?.length > 0 ? cartItems?.length : 0}
-
-
-
+                            {isLoggedIn && cartItems?.length > 0
+                              ? cartItems?.length
+                              : 0}
                           </span>
                         </Link>
                       </div>

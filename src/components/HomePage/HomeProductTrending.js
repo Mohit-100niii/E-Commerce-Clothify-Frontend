@@ -103,6 +103,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchProductsAction } from "../../redux/slices/products/productSlices";
 import baseURL from "../../utils/baseURL";
+import { ThreeDot } from "react-loading-indicators";
+
 
 const HomeProductTrending = () => {
   // Build up URL
@@ -146,29 +148,22 @@ const HomeProductTrending = () => {
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-0 lg:gap-x-8 bg-slate-100 rounded-lg">
-            {loading ? (
-              <div className="col-span-4 flex justify-center items-center">
-                {/* Loader */}
-                <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
-              </div>
-            ) : (
+            {products?.length ? (
               products?.map((product) => (
                 <Link
                   to={`/products/${product._id}`}
                   key={product.id}
                   className="group relative"
                 >
-                  <div className="h-56 w-10/12 overflow-hidden rounded-md group-hover:opacity-75 lg:h-72 xl:h-80 mt-4 ml-4 border border-yellow-500">
+                  <div className="h-56 w-10/12 overflow-hidden rounded-md group-hover:opacity-75 lg:h-72 xl:h-80 mt-4 ml-4 border">
                     <img
                       src={product.images[0]}
                       alt={product.images[0]}
                       className="h-full w-full object-cover object-center"
                     />
-                    <b>{product.name}</b>
-                    Rs {product.price}.00
                   </div>
-                  <div className="mt-3 mb-4 ml-4 w-10/12 text-center rounded-xl bg-yellow-200 border border-yellow-500">
-                    <h3 className="mt-2 text-sm text-indigo-600">
+                  <div className=" mt-3 mb-4 ml-4 w-10/12 text-center rounded-xl  bg-white border">
+                    <h3 className="mt-2 text-sm  text-indigo-600">
                       <span className="absolute inset-0 " />
                       <b>{product.name}</b>
                     </h3>
@@ -176,8 +171,21 @@ const HomeProductTrending = () => {
                       Rs {product.price}.00
                     </p>
                   </div>
+                  {/* <p className="mt-1 text-sm text-gray-500">
+                  {product.description}
+                </p> */}
                 </Link>
               ))
+            ) : (
+              <div className="flex align-middle items-center w-full h-full justify-center mt-5 ml-20 p-5">
+                <ThreeDot
+                  variant="bounce"
+                  color="#09eb09"
+                  size="large"
+                  text="Loading Please Wait.."
+                  textColor="#2bf315"
+                />
+              </div>
             )}
           </div>
 
